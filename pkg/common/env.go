@@ -3,29 +3,28 @@ package common
 type EnvModeType byte
 
 const (
-	NO_SET EnvModeType = 1 << iota
-	LOCAL_ENV
-	DEV_ENV
-	PROD_ENV
+	ENV_MODE_NO_SET EnvModeType = iota
+	ENV_MODE_LOCAL
+	ENV_MODE_DEV
+	ENV_MODE_PROD
 )
 
-var env EnvModeType = NO_SET
+var env EnvModeType = ENV_MODE_NO_SET
 
 func GetEnvMode() EnvModeType {
-	if env == NO_SET {
+	if env == ENV_MODE_NO_SET {
 		panic("env mode not set")
 	}
-
 	return env
 }
 
 func SetEnvMode(mode string) {
 	switch mode {
 	case "local":
-		env = LOCAL_ENV
+		env = ENV_MODE_LOCAL
 	case "dev":
-		env = DEV_ENV
+		env = ENV_MODE_DEV
 	case "prod":
-		env = PROD_ENV
+		env = ENV_MODE_PROD
 	}
 }
