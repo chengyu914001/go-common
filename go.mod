@@ -1,4 +1,4 @@
-module go-common
+module github.com/chengyu914001/go-common
 
 go 1.24.5
 
