@@ -9,9 +9,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-var (
-	defaultLogger zerolog.Logger
-)
+var defaultLogger zerolog.Logger
 
 type loggerCtxKeyType struct{}
 
