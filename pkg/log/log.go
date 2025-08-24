@@ -5,7 +5,7 @@ import (
 
 	"os"
 
-	"github.com/chengyu914001/go-common/pkg/global"
+	"github.com/chengyu914001/go-common/pkg/constant"
 	"github.com/rs/zerolog"
 )
 
@@ -14,16 +14,16 @@ var defaultLogger zerolog.Logger
 type loggerCtxKeyType struct{}
 
 func init() {
-	switch global.GetEnvMode() {
-	case global.ENV_MODE_LOCAL:
+	switch constant.GetEnvMode() {
+	case constant.ENV_MODE_LOCAL:
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	case global.ENV_MODE_DEV:
+	case constant.ENV_MODE_DEV:
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	case global.ENV_MODE_PROD:
+	case constant.ENV_MODE_PROD:
 		zerolog.SetGlobalLevel(zerolog.WarnLevel)
 	}
 
-	defaultLogger = zerolog.New(os.Stdout).With().Timestamp().Str("service", global.GetServiceName()).Logger()
+	defaultLogger = zerolog.New(os.Stdout).With().Timestamp().Str("service", constant.GetServiceName()).Logger()
 }
 
 func SetDymanicValues(
