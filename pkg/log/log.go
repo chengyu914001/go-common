@@ -2,7 +2,7 @@ package log
 
 import (
 	"context"
-	// "fmt"
+
 	"github.com/chengyu914001/go-common/pkg/common"
 	"github.com/rs/zerolog"
 	"os"

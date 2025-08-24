@@ -2,7 +2,7 @@ SERVICE_NAME=test-service
 PREFIX=SERVICE_NAME=$(SERVICE_NAME)
 
 lint:
-	go fmt ./...
+	@go fmt ./...
 .PHONY: lint
 
 local-run:
