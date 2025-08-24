@@ -4,9 +4,7 @@ import (
 	"os"
 )
 
-var (
-	serviceName string
-)
+var serviceName string
 
 func init() {
 	serviceName = os.Getenv("SERVICE_NAME")

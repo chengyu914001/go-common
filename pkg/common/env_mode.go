@@ -12,21 +12,21 @@ const (
 	ENV_MODE_PROD
 )
 
-var env EnvModeType
+var envMode EnvModeType
 
 func init() {
 	switch os.Getenv("ENV_MODE") {
 	case "local":
-		env = ENV_MODE_LOCAL
+		envMode = ENV_MODE_LOCAL
 	case "dev":
-		env = ENV_MODE_DEV
+		envMode = ENV_MODE_DEV
 	case "prod":
-		env = ENV_MODE_PROD
+		envMode = ENV_MODE_PROD
 	default:
 		panic("invalid env mode")
 	}
 }
 
 func GetEnvMode() EnvModeType {
-	return env
+	return envMode
 }
