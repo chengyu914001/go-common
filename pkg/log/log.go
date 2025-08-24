@@ -3,19 +3,19 @@ package log
 import (
 	"context"
 
+	"os"
+
 	"github.com/chengyu914001/go-common/pkg/common"
 	"github.com/rs/zerolog"
-	"os"
 )
 
 var (
 	defaultLogger zerolog.Logger
-	logCtxKey     struct{}
 )
 
-func init() {
-	zerolog.CallerSkipFrameCount = 3
+type loggerCtxKeyType struct{}
 
+func init() {
 	switch common.GetEnvMode() {
 	case common.ENV_MODE_LOCAL:
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -28,17 +28,15 @@ func init() {
 	defaultLogger = zerolog.New(os.Stdout).With().Timestamp().Str("service", common.GetServiceName()).Logger()
 }
 
-func getLogger(ctx context.Context) zerolog.Logger {
-	logger := defaultLogger
-	if ctx.Value(logCtxKey) != nil {
-		logger = ctx.Value(logCtxKey).(zerolog.Logger)
+func SetValues(
+	ctx context.Context,
+	values map[string]string,
+) context.Context {
+	loggerCtx := getLogger(ctx).With()
+	for k, v := range values {
+		loggerCtx = loggerCtx.Str(k, v)
 	}
-	return logger
-}
-
-func SetTraceID(ctx context.Context, traceID string) context.Context {
-	logger := getLogger(ctx).With().Str("trace_id", traceID).Logger()
-	return context.WithValue(ctx, logCtxKey, logger)
+	return context.WithValue(ctx, loggerCtxKeyType{}, loggerCtx.Logger())
 }
 
 func Debug(ctx context.Context, msg string) {
@@ -58,5 +56,13 @@ func Warn(ctx context.Context, msg string) {
 
 func Error(ctx context.Context, msg string) {
 	logger := getLogger(ctx)
-	logger.Error().Caller().Msg(msg)
+	logger.Error().Caller(1).Msg(msg)
+}
+
+func getLogger(ctx context.Context) zerolog.Logger {
+	if logger := ctx.Value(loggerCtxKeyType{}); logger != nil {
+		return logger.(zerolog.Logger)
+	}
+
+	return defaultLogger
 }
