@@ -26,14 +26,9 @@ func init() {
 	defaultLogger = zerolog.New(os.Stdout).With().Timestamp().Str("service", constant.GetServiceName()).Logger()
 }
 
-func SetDymanicValues(
-	ctx context.Context,
-	values map[string]string,
-) context.Context {
+func SetStrVal(ctx context.Context, key, value string) context.Context {
 	loggerCtx := getLogger(ctx).With()
-	for k, v := range values {
-		loggerCtx = loggerCtx.Str(k, v)
-	}
+	loggerCtx = loggerCtx.Str(key, value)
 
 	return context.WithValue(ctx, loggerCtxKeyType{}, loggerCtx.Logger())
 }

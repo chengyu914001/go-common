@@ -8,6 +8,8 @@ import (
 
 func main() {
 	ctx := context.Background()
-	ctx = log.SetDymanicValues(ctx, map[string]string{"trace_id": "123", "ip": "127.0.0.1", "user_id": "1"})
+	ctx = log.SetStrVal(ctx, "trace_id", "123")
+	ctx = log.SetStrVal(ctx, "ip", "127.0.0.1")
+	ctx = log.SetStrVal(ctx, "user_id", "1")
 	log.Error(ctx, "Hello, World!")
 }
