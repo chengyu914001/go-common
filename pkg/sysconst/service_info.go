@@ -1,4 +1,4 @@
-package constant
+package sysconst
 
 import (
 	"os"
