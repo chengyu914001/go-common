@@ -9,7 +9,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	ctx = log.SetStrVal(
+	ctx = log.SetStrKetVals(
 		ctx,
 		[2]string{"trace_id", "123"},
 		[2]string{"ip", "127.0.0.1"},
@@ -17,5 +17,5 @@ func main() {
 	)
 	log.Error(ctx, "Hello, World!")
 
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(1000 * time.Millisecond)
 }

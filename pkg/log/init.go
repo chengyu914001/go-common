@@ -8,22 +8,26 @@ import (
 	"time"
 )
 
-var defaultLogger zerolog.Logger
-
-type loggerCtxKeyType struct{}
-
 func init() {
-	switch sysconst.GetEnvMode() {
-	case sysconst.ENV_MODE_LOCAL, sysconst.ENV_MODE_DEV:
-		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	case sysconst.ENV_MODE_PROD:
-		zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	}
+	initGlobalLogger()
+	setGlobalLoggerLevel()
+}
 
-	writer := diode.NewWriter(os.Stdout, 32<<20, 10*time.Millisecond, nil)
-	defaultLogger = zerolog.New(writer).
+var globalLogger zerolog.Logger
+
+func initGlobalLogger() {
+	writer := diode.NewWriter(os.Stdout, 1<<16, 10*time.Millisecond, nil)
+	globalLogger = zerolog.New(writer).
 		With().
 		Timestamp().
 		Str("service", sysconst.GetServiceName()).
 		Logger()
+}
+
+func setGlobalLoggerLevel() {
+	if sysconst.GetEnvMode() == sysconst.ENV_MODE_PROD {
+		globalLogger = globalLogger.Level(zerolog.WarnLevel)
+	} else {
+		globalLogger = globalLogger.Level(zerolog.InfoLevel)
+	}
 }
