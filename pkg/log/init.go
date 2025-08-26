@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	zerolog.TimeFieldFormat = time.RFC3339Nano
 	initGlobalLogger()
 	setGlobalLoggerLevel()
 }

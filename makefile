@@ -1,4 +1,4 @@
-SERVICE_NAME=test-service
+SERVICE_NAME=test
 PREFIX=SERVICE_NAME=$(SERVICE_NAME)
 
 lint:

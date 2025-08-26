@@ -5,17 +5,16 @@ import (
 	"time"
 
 	"github.com/chengyu914001/go-common/pkg/log"
+	"github.com/chengyu914001/go-common/pkg/id"
 )
 
 func main() {
 	ctx := context.Background()
 	ctx = log.SetStrKetVals(
 		ctx,
-		[2]string{"trace_id", "123"},
-		[2]string{"ip", "127.0.0.1"},
-		[2]string{"user_id", "1"},
+		[2]string{"trace_id", id.NewTraceID()},
 	)
-	log.Error(ctx, "Hello, World!")
+	log.Info(ctx, "Hello, World!")
 
-	time.Sleep(1000 * time.Millisecond)
+	time.Sleep(20 * time.Millisecond)
 }
