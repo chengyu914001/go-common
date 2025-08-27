@@ -17,7 +17,7 @@ func init() {
 var globalLogger zerolog.Logger
 
 func initGlobalLogger() {
-	writer := diode.NewWriter(os.Stdout, 1<<16, 10*time.Millisecond, nil)
+	writer := diode.NewWriter(os.Stdout, 1<<24, 10*time.Millisecond, nil)
 	globalLogger = zerolog.New(writer).
 		With().
 		Timestamp().
