@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/chengyu914001/go-common/pkg/log"
 	"github.com/chengyu914001/go-common/pkg/id"
+	"github.com/chengyu914001/go-common/pkg/log"
 )
 
 func main() {

@@ -4,6 +4,6 @@ import (
 	"github.com/nrednav/cuid2"
 )
 
-func NewTraceID() string {
+func GetPublicID() string {
 	return cuid2.Generate()
 }
