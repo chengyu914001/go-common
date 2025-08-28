@@ -17,6 +17,11 @@ func SetStrKetVals(ctx context.Context, keyVals ...[2]string) context.Context {
 	return context.WithValue(ctx, loggerCtxKeyType{}, logger)
 }
 
+func Debug(ctx context.Context, msg string) {
+	logger := getLogger(ctx)
+	logger.Debug().Msg(msg)
+}
+
 func Info(ctx context.Context, msg string) {
 	logger := getLogger(ctx)
 	logger.Info().Msg(msg)

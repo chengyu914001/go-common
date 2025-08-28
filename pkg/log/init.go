@@ -9,9 +9,13 @@ import (
 )
 
 func init() {
-	zerolog.TimeFieldFormat = time.RFC3339Nano
+	setAllLoggerTimeFormat()
 	initGlobalLogger()
 	setGlobalLoggerLevel()
+}
+
+func setAllLoggerTimeFormat() {
+	zerolog.TimeFieldFormat = time.RFC3339Nano
 }
 
 var globalLogger zerolog.Logger
@@ -27,8 +31,8 @@ func initGlobalLogger() {
 
 func setGlobalLoggerLevel() {
 	if sysconst.GetEnvMode() == sysconst.ENV_MODE_PROD {
-		globalLogger = globalLogger.Level(zerolog.WarnLevel)
-	} else {
 		globalLogger = globalLogger.Level(zerolog.InfoLevel)
+	} else {
+		globalLogger = globalLogger.Level(zerolog.DebugLevel)
 	}
 }
