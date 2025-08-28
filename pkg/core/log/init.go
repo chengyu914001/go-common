@@ -1,7 +1,7 @@
 package log
 
 import (
-	"github.com/chengyu914001/go-common/pkg/sysconst"
+	"github.com/chengyu914001/go-common/pkg/core/sysconst"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/diode"
 	"os"
