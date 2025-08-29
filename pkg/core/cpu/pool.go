@@ -5,13 +5,13 @@ import (
 	"runtime"
 )
 
-var cpuPool = make(chan struct{}, runtime.NumCPU())
+var running = make(chan struct{}, runtime.NumCPU())
 
 func DoLimitRun(ctx context.Context, f func() error) error {
 	select {
-	case cpuPool <- struct{}{}:
+	case running <- struct{}{}:
 		defer func() {
-			<-cpuPool
+			<-running
 		}()
 		return f()
 	case <-ctx.Done():
