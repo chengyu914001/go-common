@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/diode"
 	"os"
+	"runtime"
 	"time"
 )
 
@@ -21,7 +22,12 @@ func setAllLoggerTimeFormat() {
 var globalLogger zerolog.Logger
 
 func initGlobalLogger() {
-	writer := diode.NewWriter(os.Stdout, 1<<24, 10*time.Millisecond, nil)
+	buffer := runtime.NumCPU() << 12
+	writer := diode.NewWriter(os.Stdout, buffer, time.Millisecond, func(missed int) {
+		if missed > 0 {
+			globalLogger.Error().Msgf("Dropped %d logs", missed)
+		}
+	})
 	globalLogger = zerolog.New(writer).
 		With().
 		Timestamp().

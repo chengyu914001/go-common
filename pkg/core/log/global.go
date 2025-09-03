@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func SetStrKetVals(ctx context.Context, keyVals ...[2]string) context.Context {
+func SetStrKeyVals(ctx context.Context, keyVals ...[2]string) context.Context {
 	logger := getLogger(ctx)
 	logger.UpdateContext(func(logCtx zerolog.Context) zerolog.Context {
 		for _, keyVal := range keyVals {
@@ -43,6 +43,5 @@ func getLogger(ctx context.Context) zerolog.Logger {
 	if logger := ctx.Value(loggerCtxKeyType{}); logger != nil {
 		return logger.(zerolog.Logger)
 	}
-
 	return globalLogger
 }
