@@ -6,6 +6,6 @@ lint:
 .PHONY: lint
 
 local-run:
-	@ENV_MODE=local $(PREFIX) go run cmd/main.go
+	@ENV_MODE=local $(PREFIX) go run cmd/server/main.go
 .PHONY: local-run
 

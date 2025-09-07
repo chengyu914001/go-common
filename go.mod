@@ -5,6 +5,7 @@ go 1.24.5
 require (
 	github.com/nrednav/cuid2 v1.1.0
 	github.com/rs/zerolog v1.34.0
+	github.com/shopspring/decimal v1.4.0
 	golang.org/x/crypto v0.41.0
 )
 

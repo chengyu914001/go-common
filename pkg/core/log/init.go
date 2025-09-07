@@ -6,28 +6,34 @@ import (
 	"github.com/rs/zerolog/diode"
 	"os"
 	"runtime"
+	"strconv"
 	"time"
 )
 
 func init() {
-	setAllLoggerTimeFormat()
+	setAllLoggerTime()
 	initGlobalLogger()
 	setGlobalLoggerLevel()
 }
 
-func setAllLoggerTimeFormat() {
+func setAllLoggerTime() {
 	zerolog.TimeFieldFormat = time.RFC3339Nano
+	zerolog.TimestampFunc = func() time.Time {
+		return time.Now().UTC()
+	}
 }
 
 var globalLogger zerolog.Logger
 
 func initGlobalLogger() {
-	buffer := runtime.NumCPU() << 12
-	writer := diode.NewWriter(os.Stdout, buffer, time.Millisecond, func(missed int) {
-		if missed > 0 {
-			globalLogger.Error().Msgf("Dropped %d logs", missed)
-		}
-	})
+	writer := diode.NewWriter(
+		os.Stderr,
+		runtime.NumCPU()<<12,
+		time.Millisecond,
+		func(missed int) {
+			os.Stderr.WriteString("Drop " + strconv.Itoa(missed) + " logs\n")
+		},
+	)
 	globalLogger = zerolog.New(writer).
 		With().
 		Timestamp().

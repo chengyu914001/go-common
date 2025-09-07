@@ -6,17 +6,6 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func SetStrKeyVals(ctx context.Context, keyVals ...[2]string) context.Context {
-	logger := getLogger(ctx)
-	logger.UpdateContext(func(logCtx zerolog.Context) zerolog.Context {
-		for _, keyVal := range keyVals {
-			logCtx = logCtx.Str(keyVal[0], keyVal[1])
-		}
-		return logCtx
-	})
-	return context.WithValue(ctx, loggerCtxKeyType{}, logger)
-}
-
 func Debug(ctx context.Context, msg string) {
 	logger := getLogger(ctx)
 	logger.Debug().Msg(msg)
