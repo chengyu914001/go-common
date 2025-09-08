@@ -26,6 +26,11 @@ func Error(ctx context.Context, msg string) {
 	logger.Error().Caller(1).Msg(msg)
 }
 
+func Fatal(ctx context.Context, msg string) {
+	logger := getLogger(ctx)
+	logger.Fatal().Caller(1).Msg(msg)
+}
+
 type loggerCtxKeyType struct{}
 
 func getLogger(ctx context.Context) zerolog.Logger {
