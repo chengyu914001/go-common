@@ -7,9 +7,10 @@ import (
 var serviceName string
 
 func init() {
-	serviceName = os.Getenv("SERVICE_NAME")
-	if serviceName == "" {
-		panic("service name not set")
+	var err error
+	serviceName, err = os.Hostname()
+	if err != nil {
+		panic(err)
 	}
 }
 

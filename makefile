@@ -1,11 +1,13 @@
-SERVICE_NAME=test
-PREFIX=SERVICE_NAME=$(SERVICE_NAME)
+LOAD_ENV=env $(cat .env | xargs)
 
 lint:
 	@go fmt ./...
 .PHONY: lint
 
-local-run:
-	@ENV_MODE=local $(PREFIX) go run cmd/server/main.go
-.PHONY: local-run
+test:
+	@$(LOAD_ENV) go test -count=1 -v ./...
+.PHONY: test
 
+local-run:
+	@$(LOAD_ENV) go run cmd/server/main.go
+.PHONY: local-run
