@@ -3,39 +3,45 @@ package token
 import (
 	"time"
 
-	"github.com/chengyu914001/go-common/pkg/core/permission"
+	"crypto/rand"
+	"math/big"
+
+	"github.com/chengyu914001/go-common/pkg/core/id"
 	"github.com/chengyu914001/go-common/pkg/core/sysconst"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-const (
-	accessTokenTTL = 10 * time.Minute
-)
+const accessTokenTTL = 10 * time.Minute
+
+var randAccessTokenDurationGenerator *big.Int
+
+func init() {
+	var err error
+	randAccessTokenDurationGenerator, err = rand.Int(rand.Reader, big.NewInt(int64(time.Second+1)))
+	if err != nil {
+		panic(err)
+	}
+}
+
+func generateAccessTokenRandDuration() time.Duration {
+	return time.Duration(randAccessTokenDurationGenerator.Int64())
+}
 
 type accessTokenClaims struct {
-	Scopes permission.Permission `json:"scp"`
 	jwt.RegisteredClaims
 }
 
-func GenerateAccessToken(
-	userID string,
-	scopes permission.Permission,
-	audiences []string,
-) (string, error) {
-	now := time.Now()
-	exp := now.Add(accessTokenTTL)
-	registeredClaims := jwt.RegisteredClaims{
-		Subject:   userID,
-		ExpiresAt: jwt.NewNumericDate(exp),
-		IssuedAt:  jwt.NewNumericDate(now),
-		Issuer:    sysconst.GetIssuerName(),
-	}
-	if len(audiences) > 0 {
-		registeredClaims.Audience = audiences
-	}
+func GenerateAccessToken(userID string, audiences []string) (string, error) {
+	now := time.Now().UTC()
+	exp := now.Add(accessTokenTTL + generateAccessTokenRandDuration())
 	claims := accessTokenClaims{
-		Scopes:           scopes,
-		RegisteredClaims: registeredClaims,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    sysconst.GetIssuerName(),
+			Subject:   userID,
+			Audience:  jwt.ClaimStrings(audiences),
+			ExpiresAt: jwt.NewNumericDate(exp),
+			ID:        id.GenerateTokenID(),
+		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodEdDSA, claims)
 	signed, err := token.SignedString(privateKey)
