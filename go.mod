@@ -3,6 +3,7 @@ module github.com/chengyu914001/go-common
 go 1.24.5
 
 require (
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/nrednav/cuid2 v1.1.0
 	github.com/rs/zerolog v1.34.0
 	github.com/shopspring/decimal v1.4.0
