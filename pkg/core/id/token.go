@@ -4,6 +4,6 @@ import (
 	"github.com/nrednav/cuid2"
 )
 
-func GetTraceID() string {
+func GenerateTokenID() string {
 	return cuid2.Generate()
 }
