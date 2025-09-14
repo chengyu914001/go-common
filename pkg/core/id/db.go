@@ -4,6 +4,6 @@ import (
 	"github.com/nrednav/cuid2"
 )
 
-func GeneratePrimaryKetID() string {
+func GeneratePrimaryKeyID() string {
 	return cuid2.Generate()
 }

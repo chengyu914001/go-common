@@ -7,14 +7,14 @@ import (
 )
 
 func TestGeneratePrimaryKetIDLen(t *testing.T) {
-	if len(id.GeneratePrimaryKetID()) != 24 {
+	if len(id.GeneratePrimaryKeyID()) != 24 {
 		t.Error("len(id.GetPublicID()) != 24")
 	}
 }
 
 func TestGeneratePrimaryKetIDUnique(t *testing.T) {
-	id1 := id.GeneratePrimaryKetID()
-	id2 := id.GeneratePrimaryKetID()
+	id1 := id.GeneratePrimaryKeyID()
+	id2 := id.GeneratePrimaryKeyID()
 	if id1 == id2 {
 		t.Error("id1 == id2")
 	}
